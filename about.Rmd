@@ -1,0 +1,19 @@
+---
+title: "Carlos Estevez's Website Datascience"
+author: "Carlos Estevez"
+date: "2023-03-19"
+output:
+html_document:
+css: "bootstrap.css"
+
+---
+
+<div class="alert alert-dismissible alert-warning">
+
+<h3><strong>About Me</strong></h3>
+
+In this EDA(Exploratory Data Analysis) we will conduct an analysis of beers sold across the United States. In addition, we will show deep analysis across different beer names, styles, and companies to shed more light into some of the weakness and advantages of certain business strategies.
+
+This analysis will be presented to the Budweiser corporation. We will analyze and investigate data sets and summarize their main characteristics, often employing data visualization methods to be more compressive.  Our main goal will be to recognize the areas where the company can focus aiming to strengthen its position in the market and ultimately translate these benefits to the final customer.
+
+</div>
