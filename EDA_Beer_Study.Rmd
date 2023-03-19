@@ -1,6 +1,6 @@
 ---
 title: "EDA Analysis Beer and Breweries Budweiser"
-author: "Carlos Estevez and Haitie Liu"
+author: "Carlos Estevez"
 date: "2023-02-17"
 output: 
   html_document:
