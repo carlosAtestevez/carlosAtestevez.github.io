@@ -1,5 +1,5 @@
 ---
-title: "EDA Analysis Beer and Breweries Budweiser"
+title: ""
 author: "Carlos Estevez"
 date: "2023-02-17"
 output: 
@@ -17,7 +17,7 @@ body {
 </style>
 
 <div class="alert alert-dismissible alert-warning">
-
+<br><h2><strong>EDA Analysis Beer and Breweries across the United States</strong></h2>
 <h3><strong>Introduction</strong></h3>
 
 In this EDA(Exploratory Data Analysis) we will conduct an analysis of beers sold across the United States. In addition, we will show deep analysis across different beer names, styles, and companies to shed more light into some of the weakness and advantages of certain business strategies.
