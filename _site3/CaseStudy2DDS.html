@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Carlos Estevez" />
+
+<meta name="date" content="2023-03-31" />
+
+<title>CaseStudy2DDS.knit</title>
+
+<script src="site_libs/header-attrs-2.19/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="bootstrap.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Carlos Estevez</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">About Me</a>
+</li>
+<li>
+  <a href="EDA_Beer_Study.html">Beer Study</a>
+</li>
+<li>
+  <a href="CaseStudy2DDS.html">Employee Attrition Study</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<style>
+body {
+  background-color: azure;
+}
+</style>
+<div class="alert alert-dismissible alert-warning">
+<br>
+<h2>
+<strong>Analysis about Employee Attrition by DDSAnalytics</strong>
+</h2>
+<p><a href="https://estevez.shinyapps.io/EmployeeAttritionDDS/">Access
+to dynamic App(ShinyApp)</a></p>
+<div class="alert alert-dismissible alert-warning">
+
+<h3>
+<strong>Introduction</strong>
+</h3>
+<p>DDSAnalytics is a company dedicated to conducting data analysis in
+different areas aiming to help different organizations to streamline
+their processes and improve their relationship with their business
+partnes including customers, vendors, and employees.</p>
+<p>In this EDA project DDSAnalytics will conduct an analysis for the
+Frito-lay organization about employee attrition. The Frito-Lay
+organization has a problem of attrition and they want to identify the
+reasons behind it. We will investigate the different parameters
+correlated to attrition and build a model to predict it</p>
+<strong>Remember to execute each Chunk in sequence</strong>
+<p>
+<p><img src="images/FullLogo_Transparent%20(2).png" width="373" /></p>
+</div>
+<p>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Loading the libraries and initializing</strong>
+</h3>
+<div class="alert alert-dismissible alert-info">
+<p><button type="button" class="close" data-dismiss="alert">×</button>
+<strong>It is very important to update the working directory once you
+download the project!</strong> <br>You can use Amazon S3 instead. Take a
+look at the following section</br></p>
+</div>
+<p><br></p>
+<pre class="r"><code>library(tidyverse)
+library(stringr)
+library(caret)
+library(e1071)
+library(class)
+library(RCurl) 
+library(aws.s3)
+library(smotefamily)
+library(GGally)
+
+
+file_path = &quot;C:\\Users\\cestevez\\Dropbox\\Cloud PC\\Thinkpad\\Thinkpad Desktop\\Master Data Science SMU\\Class_Sessions\\Data Science Sessions\\Repository\\carlosAtestevez.github.io\\files\\&quot;
+main_data_file = paste0(file_path,&quot;CaseStudy2-data.csv&quot;)
+main_data_file_noattr = paste0(file_path,&quot;Case2PredictionsCESTEVEZ Attrition.csv&quot;)
+main_data_file_mi = paste0(file_path,&quot;Case2PredictionsCESTEVEZ Salary.csv&quot;)</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Retrieving data from CSV files</strong>
+</h3>
+<p><br></p>
+<pre class="r"><code>df_std_1 = read.csv(main_data_file,header = TRUE)</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Retrieving data to Amazon S3</strong>
+</h3>
+<br>
+<h4>
+We will read three files from S3
+</h4>
+</br>
+<ul>
+<li>
+Main dataset: CaseStudy2-data.csv
+<li>
+Attrition prediction dataset: CaseStudy2CompSet No Attrition.csv
+<li>
+Salary prediction dataset: CaseStudy2CompSet No Salary.csv
+</ul>
+<p><br></p>
+<pre class="r"><code>#Setting the access key and key ids
+Sys.setenv(&quot;AWS_ACCESS_KEY_ID&quot; = &quot;AKIA5HRB7XJNIOKHMHYK&quot;,
+           &quot;AWS_SECRET_ACCESS_KEY&quot; = &quot;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&quot;,
+           &quot;AWS_DEFAULT_REGION&quot;=&quot;us-east-2&quot;)
+
+#Retrieving three datasets
+obj_main_ds = get_object(&quot;CaseStudy2-data.csv&quot;, bucket = &quot;ddsproject1&quot;)
+df_std_1=read.csv(text = rawToChar(obj_main_ds), sep=&quot;,&quot;, header = TRUE)
+obj_no_attr = get_object(&quot;CaseStudy2CompSet No Attrition.csv&quot;, bucket = &quot;ddsproject1&quot;)
+df_std_nattr=read.csv(text = rawToChar(obj_no_attr), sep=&quot;,&quot;, header = TRUE)
+obj_no_mi = get_object(&quot;CaseStudy2CompSet No Salary.csv&quot;, bucket = &quot;ddsproject1&quot;)
+df_std_mi=read.csv(text = rawToChar(obj_no_mi), sep=&quot;,&quot;, header = TRUE)</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Data manipulation and Oversampling imbalanced data</strong>
+</h3>
+<p><br></p>
+<pre class="r"><code>#Function for performing oversampling
+oversampling = function(p_df_data){
+  vlnr_len_0 = nrow(p_df_data)
+  
+  df_nos = filter(p_df_data,Attrition == &quot;No&quot;)
+  df_yeses = filter(p_df_data,Attrition == &quot;Yes&quot;)
+  vlnr_len_no = nrow(df_nos) 
+  vlnr_len_yeses = nrow(df_yeses)
+  
+  vlnr_balance = vlnr_len_no - vlnr_len_yeses
+  df_add_yeses = df_yeses[sample(seq(1,vlnr_len_yeses,1),vlnr_balance,replace = TRUE),]
+  df_new_yeses = rbind(df_yeses,df_add_yeses)
+  df_final = rbind(df_new_yeses,df_nos)
+  return(df_final)
+}
+
+
+#Categorical variables to Factor
+df_std_1$BusinessTravel = factor(df_std_1$BusinessTravel)
+df_std_1$Attrition = factor(df_std_1$Attrition)
+df_std_1$Department = factor(df_std_1$Department)
+df_std_1$Education = factor(df_std_1$Education)
+df_std_1$EducationField = factor(df_std_1$EducationField)
+df_std_1$EnvironmentSatisfaction = factor(df_std_1$EnvironmentSatisfaction)
+df_std_1$Gender = factor(df_std_1$Gender)
+df_std_1$JobLevel0 = factor(df_std_1$JobLevel)
+df_std_1$JobLevel = factor(df_std_1$JobLevel,levels = c(5,4,3,2,1),labels = c(&quot;Senior management&quot;,&quot;Middle management&quot;,&quot;First-level management&quot;,&quot;Intermediate or experienced&quot;,&quot;Entry-level&quot;))
+df_std_1$JobRole = factor(df_std_1$JobRole)
+df_std_1$JobInvolvement = factor(df_std_1$JobInvolvement)
+df_std_1$JobSatisfaction = factor(df_std_1$JobSatisfaction)
+df_std_1$MaritalStatus = factor(df_std_1$MaritalStatus)
+df_std_1$OverTime = factor(df_std_1$OverTime)
+df_std_1$RelationshipSatisfaction = factor(df_std_1$RelationshipSatisfaction)
+df_std_1$Over18 = factor(df_std_1$Over18)
+df_std_1$StockOptionLevel = factor(df_std_1$StockOptionLevel)
+
+#Categorical variables to numeric
+df_std_1$JobSatisfactionN = factor(df_std_1$JobSatisfaction)
+df_std_1$EnvironmentSatisfactionN = factor(df_std_1$EnvironmentSatisfaction)
+df_std_1$OverTimeN = as.numeric(df_std_1$OverTime)
+df_std_1$MaritalStatusN = as.numeric(df_std_1$MaritalStatus)
+df_std_1$JobRoleN = as.numeric(df_std_1$JobRole)
+df_std_1$JobLevelN = as.numeric(df_std_1$JobLevel)
+df_std_1$JobLevelN2 = as.numeric(df_std_1$JobLevel0)
+df_std_1$GendeN = as.numeric(df_std_1$Gender)
+df_std_1$BusinessTravelN = as.numeric(df_std_1$BusinessTravel)
+df_std_1$AttritionN = as.numeric(df_std_1$Attrition)
+df_std_1$StockOptionLevelN = as.numeric(df_std_1$StockOptionLevel)
+df_std_1$JobInvolvementN = as.numeric(df_std_1$JobSatisfactionN)
+
+#Continuous variables to numeric
+df_std_1$MonthlyIncome = as.numeric(df_std_1$MonthlyIncome)
+df_std_1$DistanceFromHome = as.numeric(df_std_1$DistanceFromHome)
+df_std_1$YearsInCurrentRole = as.numeric(df_std_1$YearsInCurrentRole)
+df_std_1$YearsAtCompany = as.numeric(df_std_1$YearsAtCompany)
+df_std_1$YearsWithCurrManager = as.numeric(df_std_1$YearsWithCurrManager)
+df_std_1$EmployeeNumber = as.numeric(df_std_1$EmployeeNumber)
+df_std_1$TotalWorkingYears = as.numeric(df_std_1$TotalWorkingYears)
+df_std_1$Age = as.numeric(df_std_1$Age)
+
+
+#Performing oversampling
+df_std_unp = oversampling(df_std_1)
+df_std_unp$MonthlyIncomeScaled = scale(df_std_unp$MonthlyIncome) #/ 100</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Data Exploration</strong>
+</h3>
+<br>
+<h4>
+First we will analyze the continous variables and then the categorical
+variables
+</h4>
+<p></br></p>
+<pre class="r"><code>#Before oversampling
+df_perc_1 = df_std_1 %&gt;% count(Attrition) %&gt;% mutate(perc=(n/(nrow(df_std_1)))*1)
+df_perc_1 %&gt;% ggplot(aes(x=Attrition,y=perc,fill=Attrition))+geom_bar(stat=&quot;identity&quot;)+
+  labs(title=&quot;Attrition exploration Initial data&quot;,y=&quot;Percentage(%)&quot;,x=&quot;Decision(Yes/No)&quot;)+scale_y_continuous(labels=scales::percent) </code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-1.png" width="672" /></p>
+<pre class="r"><code>#Data after oversampling 
+df_perc_1 = df_std_unp %&gt;% count(Attrition) %&gt;% mutate(perc=(n/(nrow(df_std_unp)))*1)
+df_perc_1 %&gt;% ggplot(aes(x=Attrition,y=perc,fill=Attrition))+geom_bar(stat=&quot;identity&quot;)+
+  labs(title=&quot;Attrition exploration after oversampling&quot;,y=&quot;Percentage(%)&quot;,x=&quot;Decision(Yes/No)&quot;)+scale_y_continuous(labels=scales::percent) </code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-2.png" width="672" /></p>
+<pre class="r"><code>#MonthlyIncome
+df_std_unp %&gt;% ggplot(aes(x=MonthlyIncome))+geom_density(aes(fill=Attrition,alpha=0.8))+labs(title=&quot;Monthly income distribution&quot;,y=&quot;Density&quot;,x=&quot;Monthly Income&quot;)+scale_x_continuous(labels=scales::dollar) </code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-3.png" width="672" /></p>
+<pre class="r"><code>df_std_unp %&gt;% ggplot(aes(x=MonthlyIncomeScaled))+geom_density(aes(fill=Attrition,alpha=0.8))+labs(title=&quot;Monthly income distribution Scaled z-value&quot;,y=&quot;Density&quot;,x=&quot;Monthly Income z-value&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-4.png" width="672" /></p>
+<pre class="r"><code>df_std_unp %&gt;% ggplot(aes(x=Attrition,y=MonthlyIncome))+geom_boxplot(aes(fill=Attrition))+
+  labs(title=&quot;Monthly income distribution&quot;,y=&quot;Count&quot;,x=&quot;Monthly Income&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-5.png" width="672" /></p>
+<pre class="r"><code>#YearsAtCompany
+df_std_1 %&gt;% ggplot(aes(x=YearsAtCompany))+geom_histogram(aes(fill=Attrition))+
+  labs(title=&quot;Distribution of Years at the company&quot;,y=&quot;Number of employees&quot;,x=&quot;Years at the company&quot;)</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-6.png" width="672" /></p>
+<pre class="r"><code>df_std_1 %&gt;% ggplot(aes(x=Attrition,y=YearsAtCompany))+geom_boxplot()+
+  labs(title=&quot;Distribution of Years at the company&quot;,y=&quot;Number of employees&quot;,x=&quot;Years at the company&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-7.png" width="672" /></p>
+<pre class="r"><code>#Ploting categorical variables
+
+
+#Overtime
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=OverTime))+geom_bar()+
+labs(title=&quot;Distribution of Attritions&quot;,subtitle = &quot;Analysis using work overtime&quot;,y=&quot;Number of Atritions&quot;,x=&quot;Decision(Yes/No)&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-8.png" width="672" /></p>
+<pre class="r"><code>result_table = table(df_std_unp$OverTime,df_std_unp$Attrition)
+round(prop.table(result_table,margin = 1)*100,2)</code></pre>
+<pre><code>##      
+##          No   Yes
+##   No  63.92 36.08
+##   Yes 29.30 70.70</code></pre>
+<pre class="r"><code>#Job Staisfaction
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=JobSatisfaction))+geom_bar()+
+labs(title=&quot;Distribution of Attritions&quot;,subtitle = &quot;Analysis using work Job Satisfaction&quot;,y=&quot;Number of Atritions&quot;,x=&quot;Decision(Yes/No)&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-9.png" width="672" /></p>
+<pre class="r"><code>result_table = table(df_std_unp$JobSatisfaction,df_std_unp$Attrition)
+round(prop.table(result_table,margin = 2)*100,2)</code></pre>
+<pre><code>##    
+##        No   Yes
+##   1 19.32 26.30
+##   2 18.49 23.56
+##   3 28.90 29.86
+##   4 33.29 20.27</code></pre>
+<pre class="r"><code>#Env.Satisfaction
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=EnvironmentSatisfaction))+geom_bar()+labs(title=&quot;Distribution of Attritions&quot;,subtitle = &quot;Analysis using work Environment Satisfaction&quot;,y=&quot;Number of Atritions&quot;,x=&quot;Decision(Yes/No)&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-10.png" width="672" /></p>
+<pre class="r"><code>result_table = table(df_std_unp$EnvironmentSatisfaction,df_std_unp$Attrition)
+round(prop.table(result_table,margin = 2)*100,2)</code></pre>
+<pre><code>##    
+##        No   Yes
+##   1 17.81 31.37
+##   2 21.10 16.03
+##   3 30.55 25.07
+##   4 30.55 27.53</code></pre>
+<pre class="r"><code>#Maritial Status
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=MaritalStatus))+geom_bar()+labs(title=&quot;Distribution of Attritions&quot;,subtitle = &quot;Analysis using Maritial Status&quot;,y=&quot;Number of Atritions&quot;,x=&quot;Decision(Yes/No)&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-11.png" width="672" /></p>
+<pre class="r"><code>result_table = table(df_std_unp$MaritalStatus,df_std_unp$Attrition)
+round(prop.table(result_table,margin = 2)*100,2)</code></pre>
+<pre><code>##           
+##               No   Yes
+##   Divorced 24.52  8.90
+##   Married  48.22 42.33
+##   Single   27.26 48.77</code></pre>
+<pre class="r"><code>  #Job Level
+  df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=JobLevel))+geom_bar()+labs(title=&quot;Distribution of Attritions&quot;,subtitle = &quot;Analysis using Job level&quot;,y=&quot;Number of Atritions&quot;,x=&quot;Decision(Yes/No)&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-12.png" width="672" /></p>
+<pre class="r"><code>  result_table = table(df_std_unp$JobLevel,df_std_unp$Attrition)
+  round(prop.table(result_table,margin = 2)*100,2)</code></pre>
+<pre><code>##                              
+##                                  No   Yes
+##   Senior management            4.52  2.19
+##   Middle management            7.81  2.19
+##   First-level management      15.75 12.88
+##   Intermediate or experienced 38.63 19.32
+##   Entry-level                 33.29 63.42</code></pre>
+<pre class="r"><code>#Stock Option Level
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=StockOptionLevel))+geom_bar()+labs(title=&quot;Distribution of Attritions&quot;,subtitle = &quot;Analysis using Stock option levels&quot;,y=&quot;Number of Atritions&quot;,x=&quot;Decision(Yes/No)&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/DataExploration-13.png" width="672" /></p>
+<pre class="r"><code>result_table = table(df_std_unp$StockOptionLevel,df_std_unp$Attrition)
+round(prop.table(result_table,margin = 2)*100,2)</code></pre>
+<pre><code>##    
+##        No   Yes
+##   0 38.49 68.77
+##   1 44.93 19.32
+##   2 10.68  2.47
+##   3  5.89  9.45</code></pre>
+<pre class="r"><code>#Variables selected 
+#MonthlyIncome, YearsAtCompany, OverTimeN, JobLevelN, JobSatisfactionN, MaritalStatusN, StockOptionLevelN
+
+df_data_model_0 = select(df_std_unp,Attrition,MonthlyIncome,YearsAtCompany,OverTimeN,JobLevelN,JobSatisfactionN,MaritalStatusN,StockOptionLevelN)</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Feature selection Categorical Data using Chi-square
+test</strong>
+</h3>
+<p>
+<h4>
+Previously we analyzed the different relevant features by visualizing
+the data. In this section we will corroborate that information using
+Chi-Square test. We will Keep values in the model when p-value is less
+than 0.05
+</h4>
+</p>
+<p><br></p>
+<pre class="r"><code>#Categorical feature selection
+df_var_cat_imp = data.frame(var_name = character(16),importance = numeric(16))
+
+df_var_cat_imp$var_name[1] = &#39;BusinessTravel&#39;
+df_var_cat_imp$importance[1] = chisq.test(df_std_1$BusinessTravel, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[2] = &#39;Department&#39;
+df_var_cat_imp$importance[2] = chisq.test(df_std_1$Department, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[3] = &#39;Education&#39;
+df_var_cat_imp$importance[3] = chisq.test(df_std_1$Education, df_std_1$Attrition)$p.value</code></pre>
+<pre><code>## Warning in chisq.test(df_std_1$Education, df_std_1$Attrition): Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>df_var_cat_imp$var_name[4] = &#39;EducationField&#39;
+df_var_cat_imp$importance[4] = chisq.test(df_std_1$EducationField, df_std_1$Attrition)$p.value</code></pre>
+<pre><code>## Warning in chisq.test(df_std_1$EducationField, df_std_1$Attrition): Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>df_var_cat_imp$var_name[5] = &#39;EnvironmentSatisfaction&#39;
+df_var_cat_imp$importance[5] = chisq.test(df_std_1$EnvironmentSatisfaction, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[6] = &#39;Gender&#39; 
+df_var_cat_imp$importance[6] = chisq.test(df_std_1$Gender, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[7] = &#39;JobInvolvement&#39;
+df_var_cat_imp$importance[7] = chisq.test(df_std_1$JobInvolvement, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[8] = &#39;JobLevel&#39;
+df_var_cat_imp$importance[8] = chisq.test(df_std_1$JobLevel, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[9] = &#39;JobRole&#39;
+df_var_cat_imp$importance[9] = chisq.test(df_std_1$JobRole, df_std_1$Attrition)$p.value</code></pre>
+<pre><code>## Warning in chisq.test(df_std_1$JobRole, df_std_1$Attrition): Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>df_var_cat_imp$var_name[10] = &#39;JobSatisfaction&#39;
+df_var_cat_imp$importance[10] = chisq.test(df_std_1$JobSatisfaction, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[11] = &#39;MaritalStatus&#39;
+df_var_cat_imp$importance[11] = chisq.test(df_std_1$MaritalStatus, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[12] = &#39;PerformanceRating&#39;
+df_var_cat_imp$importance[12] = chisq.test(df_std_1$PerformanceRating, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[13] = &#39;OverTime&#39;
+df_var_cat_imp$importance[13] = chisq.test(df_std_1$OverTime, df_std_1$Attrition)$p.value
+
+
+df_var_cat_imp$var_name[14] = &#39;RelationshipSatisfaction&#39;
+df_var_cat_imp$importance[14] = chisq.test(df_std_1$RelationshipSatisfaction, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[15] = &#39;StockOptionLevel&#39;
+df_var_cat_imp$importance[15] = chisq.test(df_std_1$StockOptionLevel, df_std_1$Attrition)$p.value
+
+df_var_cat_imp$var_name[16] = &#39;WorkLifeBalance&#39;
+df_var_cat_imp$importance[16] = chisq.test(df_std_1$WorkLifeBalance, df_std_1$Attrition)$p.value
+
+
+df_var_cat_imp  = arrange(df_var_cat_imp, desc(importance))
+df_var_cat_imp</code></pre>
+<pre><code>##                    var_name   importance
+## 1         PerformanceRating 7.461706e-01
+## 2                 Education 6.242838e-01
+## 3                    Gender 5.151297e-01
+## 4  RelationshipSatisfaction 3.727117e-01
+## 5            EducationField 2.682198e-01
+## 6            BusinessTravel 4.992536e-02
+## 7           JobSatisfaction 1.115122e-02
+## 8   EnvironmentSatisfaction 1.054090e-02
+## 9                Department 9.423773e-03
+## 10          WorkLifeBalance 2.495090e-03
+## 11            MaritalStatus 3.378946e-08
+## 12                 JobLevel 2.084703e-08
+## 13           JobInvolvement 5.211041e-09
+## 14                  JobRole 3.646836e-10
+## 15         StockOptionLevel 3.724464e-12
+## 16                 OverTime 2.332981e-15</code></pre>
+<pre class="r"><code>#Setting the data for the model
+df_data_model_0 = select(df_std_unp,Attrition,MonthlyIncomeScaled,YearsAtCompany,OverTimeN,JobLevelN,JobSatisfactionN,MaritalStatusN,StockOptionLevelN)</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>KNN Model</strong>
+</h3>
+<p>
+Parameters
+</p>
+<ul>
+<li>
+Percentage Training data and Testing data: 75
+<li>
+Iterations to find best K: 20
+<ul>
+<p><br></p>
+<pre class="r"><code>#Setting training and Testing data
+nr_percentage = 75
+nr_len = nrow(df_data_model_0)
+nr_len = nrow(df_data_model_0)
+df_samples = sample(1:nr_len,round(nr_len*(nr_percentage/100)))
+df_lst_train = df_data_model_0[df_samples,]
+df_lst_test = df_data_model_0[-df_samples,]
+
+
+#Iterations
+lst_ki_index = 20
+lst_knn_data = data.frame(k=numeric(lst_ki_index) ,accuracy=numeric(lst_ki_index) )
+
+#Finding the best K
+for(ki in 1:lst_ki_index){
+  knn_results = knn(df_lst_train[,c(2:8)], df_lst_test[,c(2:8)], df_lst_train$Attrition, k = ki, prob = TRUE)
+  table_result = table(knn_results,df_lst_test$Attrition)
+  co_matrix  = confusionMatrix(table_result)
+  lst_knn_data$k[ki] = ki
+  lst_knn_data$accuracy[ki] = round(co_matrix$overall[1],2)
+}
+
+lst_knn_data %&gt;% ggplot(aes(x=k,y=accuracy,fill=k))+geom_bar(stat=&quot;identity&quot;)+
+  scale_y_continuous(labels=scales::percent)+labs(title=&quot;KNN Model K-values&quot;,
+                                                  x=&quot;K&quot;,y=&quot;Percentage(%)&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/KnnModel-1.png" width="672" /></p>
+<pre class="r"><code>#Selected model, K = 3
+knn_results = knn(df_lst_train[,c(2:8)], df_lst_test[,c(2:8)], df_lst_train$Attrition, k = 3, prob = TRUE)
+table_result = table(knn_results,df_lst_test$Attrition)
+confusionMatrix(table_result)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##            
+## knn_results  No Yes
+##         No  114   2
+##         Yes  68 181
+##                                          
+##                Accuracy : 0.8082         
+##                  95% CI : (0.764, 0.8473)
+##     No Information Rate : 0.5014         
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
+##                                          
+##                   Kappa : 0.6161         
+##                                          
+##  Mcnemar&#39;s Test P-Value : 7.912e-15      
+##                                          
+##             Sensitivity : 0.6264         
+##             Specificity : 0.9891         
+##          Pos Pred Value : 0.9828         
+##          Neg Pred Value : 0.7269         
+##              Prevalence : 0.4986         
+##          Detection Rate : 0.3123         
+##    Detection Prevalence : 0.3178         
+##       Balanced Accuracy : 0.8077         
+##                                          
+##        &#39;Positive&#39; Class : No             
+## </code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Naive Bayes Model</strong>
+</h3>
+<pre class="r"><code>#Setting training and Testing data
+nr_percentage = 75
+nr_len = nrow(df_data_model_0)
+df_samples = sample(1:nr_len,round(nr_len*(nr_percentage/100)))
+df_lst_train = df_data_model_0[df_samples,]
+df_lst_test = df_data_model_0[-df_samples,]
+
+#Running the model
+model_nb = naiveBayes(df_lst_train[,c(2:8)],df_lst_train$Attrition)
+predict_nb = predict(model_nb,df_lst_test[,c(2:8)])
+result_table = table(predict_nb,df_lst_test$Attrition)
+confusionMatrix(result_table)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           
+## predict_nb  No Yes
+##        No  101  34
+##        Yes  73 157
+##                                           
+##                Accuracy : 0.7068          
+##                  95% CI : (0.6572, 0.7531)
+##     No Information Rate : 0.5233          
+##     P-Value [Acc &gt; NIR] : 6.657e-13       
+##                                           
+##                   Kappa : 0.4065          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.0002392       
+##                                           
+##             Sensitivity : 0.5805          
+##             Specificity : 0.8220          
+##          Pos Pred Value : 0.7481          
+##          Neg Pred Value : 0.6826          
+##              Prevalence : 0.4767          
+##          Detection Rate : 0.2767          
+##    Detection Prevalence : 0.3699          
+##       Balanced Accuracy : 0.7012          
+##                                           
+##        &#39;Positive&#39; Class : No              
+## </code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Logistic Regression Model</strong>
+</h3>
+<p>
+The performance of this model is very low
+</p>
+<p><br></p>
+<pre class="r"><code>glm_model = glm(Attrition~MonthlyIncomeScaled+YearsAtCompany+OverTimeN+JobLevelN+JobSatisfactionN+MaritalStatusN+StockOptionLevelN,family = &quot;binomial&quot;, data = df_lst_train)
+glm_results = predict(glm_model,data=df_lst_test,type=&#39;response&#39;)
+predicted.classes &lt;- ifelse(glm_results&gt; 0.5, &quot;Yes&quot;, &quot;No&quot;)
+mean(predicted.classes == df_lst_test$Attrition)</code></pre>
+<pre><code>## [1] 0.5068493</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Feature selection for Linear RegressionModel</strong>
+</h3>
+<p><br></p>
+<pre class="r"><code>data_cor = select(df_std_1,MonthlyIncome,JobLevelN2,JobRoleN,YearsAtCompany,GendeN,TotalWorkingYears,BusinessTravelN,AttritionN)
+data_cor_res = cor(data_cor)
+data_cor_res</code></pre>
+<pre><code>##                   MonthlyIncome  JobLevelN2    JobRoleN YearsAtCompany       GendeN TotalWorkingYears
+## MonthlyIncome        1.00000000  0.95164005 -0.07516553    0.491378966 -0.055157089        0.77851121
+## JobLevelN2           0.95164005  1.00000000 -0.07429945    0.520583507 -0.069078459        0.78075235
+## JobRoleN            -0.07516553 -0.07429945  1.00000000   -0.091223937 -0.017882143       -0.13312291
+## YearsAtCompany       0.49137897  0.52058351 -0.09122394    1.000000000 -0.081819101        0.63608359
+## GendeN              -0.05515709 -0.06907846 -0.01788214   -0.081819101  1.000000000       -0.07237495
+## TotalWorkingYears    0.77851121  0.78075235 -0.13312291    0.636083586 -0.072374947        1.00000000
+## BusinessTravelN      0.06270690  0.03051233 -0.02428547   -0.002015983 -0.006191567        0.03385454
+## AttritionN          -0.15491496 -0.16213644  0.09053860   -0.128754060  0.025250336       -0.16720612
+##                   BusinessTravelN   AttritionN
+## MonthlyIncome         0.062706904 -0.154914955
+## JobLevelN2            0.030512330 -0.162136444
+## JobRoleN             -0.024285473  0.090538602
+## YearsAtCompany       -0.002015983 -0.128754060
+## GendeN               -0.006191567  0.025250336
+## TotalWorkingYears     0.033854541 -0.167206122
+## BusinessTravelN       1.000000000 -0.006125598
+## AttritionN           -0.006125598  1.000000000</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Linear Regression Model</strong>
+</h3>
+<p>
+Parameters
+<ul>
+<li>
+JobLevel
+<li>
+YearsAtCompany
+<li>
+Working years
+</ul>
+</p>
+<p><br></p>
+<pre class="r"><code>nr_att = nrow(df_std_1) 
+nr_per = 0.75
+lst_index = sample(nr_att,round(nr_att*nr_per))
+
+
+df_std_train_m1 = df_std_1[lst_index,]
+df_std_test_m1 = df_std_1[-lst_index,]
+
+#Fitting the model
+lm_model_0 = lm(MonthlyIncome~JobLevelN2+YearsAtCompany+TotalWorkingYears,data = df_std_train_m1)
+lm_model_pre_0 = predict(lm_model_0,newdata = df_std_test_m1)
+df_mspe_model_0 = data.frame(JobLevelN = df_std_test_m1$JobLevelN2,Observed = df_std_test_m1$MonthlyIncome,Predicted = lm_model_pre_0)
+df_mspe_model_0$Residual = df_mspe_model_0$Observed - df_mspe_model_0$Predicted
+df_mspe_model_0$IMAPE = abs( df_mspe_model_0$Residual / df_mspe_model_0$Observed )
+df_mspe_model_0$SquareResidual = df_mspe_model_0$Residual^2
+
+nr_mspe_model_0 = mean(df_mspe_model_0$SquareResidual)
+nr_mspe_model_1 = mean(df_mspe_model_0$IMAPE) * 100
+nr_mspe_model_rmse = sqrt(mean(df_mspe_model_0$SquareResidual))
+
+sprintf(&quot;MAPE: %f&quot;,nr_mspe_model_1)</code></pre>
+<pre><code>## [1] &quot;MAPE: 21.085277&quot;</code></pre>
+<pre class="r"><code>sprintf(&quot;RMSE: %f&quot;,nr_mspe_model_rmse)</code></pre>
+<pre><code>## [1] &quot;RMSE: 1419.904336&quot;</code></pre>
+<pre class="r"><code>df_mspe_model_0 %&gt;% ggplot()+geom_jitter(aes(x=JobLevelN,y=Observed),color=&quot;darkgreen&quot;)+
+  geom_jitter(aes(x=JobLevelN,y=Predicted),color=&quot;darkred&quot;)+scale_y_continuous(labels=scales::dollar)+geom_smooth(method = &quot;lm&quot;,aes(x=JobLevelN,y=Observed))+labs(title = &quot;Linear regression model&quot;,subtitle = &quot;Monthly Income prediction&quot;,x=&quot;JobLevel+YearsAtCompany+WorkingYears&quot;,y=&quot;Monthly Income($)&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<img src="CaseStudy2DDS_files/figure-html/LinearRegressionModel-1.png" width="672" />
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Predict Attrition using S3 DS</strong>
+</h3>
+<p>
+Predicting attrition from file: CaseStudy2CompSet No Attrition.csv
+</p>
+<br>
+<h4>
+KNN detail
+</h4>
+<ul>
+<li>
+K = 3
+</ul>
+<br><strong>Parameters</strong></br>
+<ul>
+<li>
+MonthlyIncomeScaled
+<li>
+YearsAtCompany
+<li>
+OverTimeN
+<li>
+JobLevelN
+<li>
+JobSatisfactionN
+<li>
+MaritalStatusN
+<li>
+StockOptionLevelN
+</ul>
+<p><br></p>
+<pre class="r"><code>#Setting the data for the model
+df_predict_ds = df_std_nattr
+
+#Transforming categorical variables to numeric
+df_predict_ds$MonthlyIncomeScale = scale(df_predict_ds$MonthlyIncome)
+df_predict_ds$YearsAtCompany = as.numeric(df_predict_ds$YearsAtCompany)
+df_predict_ds$OverTime = factor(df_predict_ds$OverTime)
+df_predict_ds$OverTimeN = as.numeric(df_predict_ds$OverTime)
+df_predict_ds$JobLevel = factor(df_predict_ds$JobLevel)
+df_predict_ds$JobLevelN = as.numeric(df_predict_ds$JobLevel)
+df_predict_ds$JobSatisfaction = factor(df_predict_ds$JobSatisfaction)
+df_predict_ds$JobSatisfactionN = as.numeric(df_predict_ds$JobSatisfaction)
+df_predict_ds$MaritalStatus = factor(df_predict_ds$MaritalStatus)
+df_predict_ds$MaritalStatusN = as.numeric(df_predict_ds$MaritalStatus)
+df_predict_ds$StockOptionLevel = factor(df_predict_ds$StockOptionLevel)
+df_predict_ds$StockOptionLevelN = as.numeric(df_predict_ds$StockOptionLevel)
+ds_predict_model_0 = select(df_predict_ds,MonthlyIncomeScale,YearsAtCompany,OverTimeN,JobLevelN,JobSatisfactionN,MaritalStatusN,StockOptionLevelN)
+
+#Running the model
+knn_nattr = knn(df_data_model_0[,c(2:8)], ds_predict_model_0, df_data_model_0$Attrition, k = 3,prob = TRUE)
+#Final result
+df_knn_nattr = data.frame(EmployeeId = df_std_nattr$ID,JobLevel=df_std_nattr$JobLevel,OverTime = df_std_nattr$OverTime,MonthlyIncome=df_std_nattr$MonthlyIncome,YearsAtCompany=df_std_nattr$YearsAtCompany,JobSatisfaction=df_std_nattr$JobSatisfaction,MaritalStatus=df_std_nattr$MaritalStatus,StockOptionLevel=df_std_nattr$StockOptionLevel,Attrition=knn_nattr)
+
+table(df_knn_nattr$OverTime,df_knn_nattr$Attrition)</code></pre>
+<pre><code>##      
+##        No Yes
+##   No  153  59
+##   Yes  55  33</code></pre>
+<pre class="r"><code>df_knn_nattr %&gt;% ggplot(aes(x=Attrition,fill=OverTime))+geom_bar()</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/PreAttrition-1.png" width="672" /></p>
+<pre class="r"><code>#Creating the prediction file
+df_file_pre = data.frame(ID=df_knn_nattr$EmployeeId,Attrition=df_knn_nattr$Attrition)
+write.csv(df_file_pre,main_data_file_noattr,row.names = FALSE)</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Predict Monthly Income using Lineal regression model</strong>
+</h3>
+<p>
+Predicting montyly income from file: CaseStudy2CompSet No Salary.csv
+</p>
+<p><br></p>
+<pre class="r"><code>df_train_lm = select(df_std_1,MonthlyIncome,JobLevelN2,YearsAtCompany,TotalWorkingYears)
+df_test_lm = select(df_std_mi,JobLevel,YearsAtCompany,TotalWorkingYears)
+df_test_lm$YearsAtCompany = as.numeric(df_test_lm$YearsAtCompany)
+df_test_lm$TotalWorkingYears = as.numeric(df_test_lm$TotalWorkingYears)
+df_test_lm$JobLevelN2 = as.numeric(factor(df_test_lm$JobLevel))
+
+
+lm_model_0 = lm(MonthlyIncome~JobLevelN2+YearsAtCompany+TotalWorkingYears,data = df_std_1)
+lm_model_pre_0 = predict(lm_model_0,newdata = df_test_lm)
+# 
+# #Resulting dataset
+# df_model_result = data.frame(EmployeeId = df_std_mi$o..bf.ID,JobLevel = df_std_mi$JobLevel,YearsAtCompany=df_std_mi$YearsAtCompany,MonthlyIncome=lm_model_pre_0)
+# 
+# df_model_result$JobLevelN = as.numeric(factor(df_model_result$JobLevel))
+# df_model_result$MonthlyIncome = round(df_model_result$MonthlyIncome,2)
+# 
+# 
+# df_model_result %&gt;% ggplot(aes(x=JobLevelN,y=MonthlyIncome))+geom_jitter(color=&quot;darkgreen&quot;)+
+#   scale_y_continuous(labels=scales::dollar)+labs(title = &quot;Linear regression model&quot;,subtitle = &quot;Monthly Income prediction&quot;,x=&quot;JobLevel&quot;,y=&quot;Monthly Income($)&quot;)+geom_smooth(method=&quot;lm&quot;)
+# 
+# #Creating the prediction file
+# df_file_pre_mi = data.frame(ID=df_model_result$EmployeeId,MonthlyIncome=df_model_result$MonthlyIncome)
+# write.csv(df_file_pre_mi,main_data_file_mi,row.names = FALSE)</code></pre>
+</div>
+<div class="alert alert-dismissible alert-warning">
+<h3>
+<strong>Business Insight</strong>
+</h3>
+<br>
+<ul>
+<li>
+People working overtime and roles
+<li>
+Job Level and Income
+<li>
+Maritial Status and Young People
+</ul>
+<pre class="r"><code>#People working overtime and Roles overtime
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=OverTime))+geom_bar()+theme(axis.text.x = element_text(angle = 45,hjust=1))+labs(title = &quot;Attrition by Work Overtime&quot;,x=&quot;Attrition&quot;,y=&quot;Number of Employees&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/BusinessInsight-1.png" width="672" /></p>
+<pre class="r"><code>  df_std_unp %&gt;% ggplot(aes(x=OverTime,fill=JobRole))+geom_bar()+theme(axis.text.x = element_text(angle = 45,hjust=1))+labs(title = &quot;Overtime by Job Role&quot;,x=&quot;Work Overtime&quot;,y=&quot;Number of Overtime&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/BusinessInsight-2.png" width="672" /></p>
+<pre class="r"><code>res = table(df_std_unp$JobRole,df_std_unp$Attrition)
+round(prop.table(res,2),4)*100</code></pre>
+<pre><code>##                            
+##                                No   Yes
+##   Healthcare Representative  9.32  4.66
+##   Human Resources            2.88  3.97
+##   Laboratory Technician     16.85 20.82
+##   Manager                    6.44  2.19
+##   Manufacturing Director    11.64  1.37
+##   Research Director          6.85  0.55
+##   Research Scientist        19.18 25.75
+##   Sales Executive           22.88 24.38
+##   Sales Representative       3.97 16.30</code></pre>
+<pre class="r"><code>#Job Level and Monthly Income
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=JobLevel))+geom_bar()+theme(axis.text.x = element_text(angle = 45,hjust=1))+labs(title = &quot;Attrition by Job Level&quot;,x=&quot;Attrition&quot;,y=&quot;Number of Employees&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/BusinessInsight-3.png" width="672" /></p>
+<pre class="r"><code>df_std_unp %&gt;% ggplot(aes(x=JobLevelN2,y=MonthlyIncome))+geom_jitter(color=&quot;darkgreen&quot;)+geom_smooth(method = &quot;lm&quot;,aes(x=JobLevelN2,y=MonthlyIncome))+labs(title = &quot;Linear regression model&quot;,subtitle = &quot;Monthly Income prediction&quot;,x=&quot;JobLevel&quot;,y=&quot;Monthly Income($)&quot;)+scale_y_continuous(labels=scales::dollar)</code></pre>
+<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/BusinessInsight-4.png" width="672" /></p>
+<pre class="r"><code>#Maritial Status
+df_std_unp %&gt;% ggplot(aes(x=Attrition,fill=MaritalStatus))+geom_bar()+labs(title = &quot;Attrition by Maritial Status&quot;,x=&quot;Attrition&quot;,y=&quot;Number of Employees&quot;)</code></pre>
+<p><img src="CaseStudy2DDS_files/figure-html/BusinessInsight-5.png" width="672" /></p>
+<pre class="r"><code>df_std_unp %&gt;% ggplot(aes(x=Age,fill=Attrition))+geom_density(aes(alpha=0.8))+labs(title = &quot;Attrition by Age&quot;,x=&quot;Age&quot;,y=&quot;Density&quot;)</code></pre>
+<img src="CaseStudy2DDS_files/figure-html/BusinessInsight-6.png" width="672" />
+</div>
+<div class="alert alert-dismissible alert-warning">
+<p>
+<h4>
+<strong>Conclusion</strong>
+</h4>
+</p>
+<p>
+Recommendations:
+<ul>
+<li>
+Reduce the working overtime especially for Research scientist and Sales
+Executive
+<li>
+Increase the salary of the new employees
+<li>
+Create more incentives for young people
+<li>
+Provide more Training programs
+<li>
+Provide more benefits such as health insurance coverage
+<li>
+Provide more discounts in entertaining places
+<li>
+Create a more positive environment
+</ul>
+</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
