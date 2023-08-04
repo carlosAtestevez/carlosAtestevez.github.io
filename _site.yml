@@ -1,0 +1,18 @@
+name: "cestevez_website"
+navbar:
+  title: "Carlos Estevez"
+  left:
+    - text: "About Me"
+      href: index.html
+    - text: "Beer Study"
+      href: EDA_Beer_Study.html
+    - text: "Employee Attrition Study"
+      href: CaseStudy2DDS.html
+    - text: "House Price Prediction"
+      href: Project_Paper.pdf
+      
+      
+      
+      
+      
+      
